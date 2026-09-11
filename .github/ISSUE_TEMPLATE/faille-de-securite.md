@@ -39,6 +39,6 @@ Niveau de difficulté (cocher) :
 - [ ] Niveau 3 ★★★
 - [ ] Niveau 4 ★★★★
 - [ ] Niveau 5 ★★★★★
-- [ ] Bonus (hors barème)
+- [ ] Bonus (hors des 10 failles officielles)
 
 Référence CWE (si connue) : CWE-…

@@ -13,7 +13,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 from notevault import routes
 from notevault.config import PORT
 from notevault.db import RACINE, init_db
-from notevault.helpers import PayloadTooLarge, Request, Response
+from notevault.helpers import PayloadTooLarge, Request, Response, esc
 
 PUBLIC_DIR = os.path.join(RACINE, "public")
 
@@ -88,8 +88,12 @@ class Gestionnaire(BaseHTTPRequestHandler):
             if garde in ("user", "admin") and requete.user is None:
                 return routes._redirection_connexion(requete)
             if garde == "admin" and requete.user["role"] != "admin":
-                return Response.json(
-                    {"erreur": "réservé aux administrateurs"}, status=403)
+                if requete.path.startswith("/api/"):
+                    return Response.json(
+                        {"erreur": "réservé aux administrateurs"}, status=403)
+                return Response.html(
+                    "<h1>403</h1><p>Accès réservé aux administrateurs.</p>",
+                    status=403)
 
             try:
                 return gestionnaire(requete, **correspondance.groupdict())
@@ -97,7 +101,7 @@ class Gestionnaire(BaseHTTPRequestHandler):
                 traceback.print_exc()
                 return Response.html(
                     "<h1>Erreur interne</h1><pre>%s</pre>"
-                    % traceback.format_exc(), status=500)
+                    % esc(traceback.format_exc()), status=500)
 
         return Response.html(
             "<h1>404</h1><p>Page introuvable.</p>", status=404)

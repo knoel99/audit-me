@@ -41,10 +41,8 @@ l'audit combine donc **lecture du code** et **tests dynamiques** de l'API et
 des pages. Chaque faille est exploitable de façon observable (pas de
 faille « théorique »).
 
-Barème suggéré : une faille de niveau N rapporte N points (total : 30 points)
-si elle est **trouvée, déclarée correctement en issue et corrigée en PR
-fusionnée**. Les bonus éventuels rapportent 1 point chacun, dans la limite
-de 5.
+Les bonus — petites faiblesses supplémentaires hors des 10 — sont appréciés
+s'ils sont signalés avec la même rigueur.
 
 | # | Niveau | Domaine d'indice |
 |---|:---:|---|
@@ -96,8 +94,8 @@ une issue avec le modèle « Signalement de faille » proposé automatiquement :
 - la PR décrit la correction, prouve que l'exploitation de l'issue échoue
   désormais et que le comportement légitime est préservé ;
 - **attention** : votre correctif ne doit corriger **que** la faille de
-  l'issue — pas les autres (elles valent des points pour le reste de
-  l'exercice) ;
+  l'issue — chacune des autres failles fait l'objet de sa propre issue et
+  de sa propre PR ;
 - les PR sont revues puis fusionnées par le responsable du dépôt.
 
 > ⚠️ Les issues sont publiques : elles révèlent des éléments de solution aux

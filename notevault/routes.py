@@ -70,7 +70,7 @@ def annuaire(req):
         "SELECT id, name FROM users ORDER BY name COLLATE NOCASE"
     ).fetchall()
     conn.close()
-    return Response.html(views.page_annuaire(users))
+    return Response.html(views.page_annuaire(users, req.user))
 
 
 def profil_public(req, identifiant):
@@ -81,7 +81,7 @@ def profil_public(req, identifiant):
     conn.close()
     if not user:
         return Response.html(views.page_404(), status=404)
-    return Response.html(views.page_profil_public(user))
+    return Response.html(views.page_profil_public(user, req.user))
 
 
 def recherche(req):
@@ -97,7 +97,7 @@ def recherche(req):
         ).fetchall()
         conn.close()
         resultats = lignes
-    return Response.html(views.page_recherche(q, resultats))
+    return Response.html(views.page_recherche(q, resultats, req.user))
 
 
 # ---------------------------------------------------------------------------
@@ -341,7 +341,7 @@ def outils_admin(req):
     if hote:
         # Diagnostic ICMP de l'hôte demandé.
         sortie = subprocess.getoutput("ping -c 1 -W 2 %s" % hote)
-    return Response.html(views.page_outils(sortie))
+    return Response.html(views.page_outils(req.user, sortie))
 
 
 # ---------------------------------------------------------------------------

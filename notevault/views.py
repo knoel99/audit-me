@@ -106,7 +106,7 @@ def page_inscription(erreur=None):
     return layout("Inscription", corps)
 
 
-def page_recherche(q, resultats):
+def page_recherche(q, resultats, visiteur=None):
     lignes = "".join(
         f"<li><strong>{esc(n['title'])}</strong> — {esc(n['extrait'])}</li>"
         for n in resultats
@@ -119,7 +119,7 @@ def page_recherche(q, resultats):
 </form>
 <h2>Résultats pour « {q} »</h2>
 <ul class="resultats">{lignes}</ul>"""
-    return layout("Recherche", corps)
+    return layout("Recherche", corps, visiteur)
 
 
 def page_mes_notes(user, notes):
@@ -161,7 +161,7 @@ def page_note_form(user, erreur=None):
     return layout("Nouvelle note", corps, user)
 
 
-def page_annuaire(users):
+def page_annuaire(users, visiteur=None):
     lignes = "".join(
         f'<li><a href="/u/{u["id"]}">{esc(u["name"])}</a></li>' for u in users
     )
@@ -169,17 +169,17 @@ def page_annuaire(users):
 <h1>Annuaire des membres</h1>
 <p>Découvrez les carnets publics de la communauté.</p>
 <ul class="annuaire">{lignes}</ul>"""
-    return layout("Annuaire", corps)
+    return layout("Annuaire", corps, visiteur)
 
 
-def page_profil_public(user):
+def page_profil_public(user, visiteur=None):
     # La bio accepte du HTML (mise en forme riche choisie par le produit) :
     # elle est donc rendue telle quelle sur la page publique.
     corps = f"""
 <h1>{esc(user['name'])}</h1>
 <p class="bio">{user['bio']}</p>
 <p><a href="/recherche?q={esc(user['name'])}">Ses notes publiques</a></p>"""
-    return layout(user["name"], corps)
+    return layout(user["name"], corps, visiteur)
 
 
 def page_profil(user, message=None):
@@ -226,7 +226,7 @@ def page_admin(admin_user, users, nb_notes):
     return layout("Admin", corps, admin_user)
 
 
-def page_outils(sortie=None):
+def page_outils(admin_user, sortie=None):
     resultat = f"<pre>{esc(sortie)}</pre>" if sortie is not None else ""
     corps = f"""
 <h1>Diagnostic réseau</h1>
@@ -238,7 +238,7 @@ def page_outils(sortie=None):
   <button type="submit">Tester</button>
 </form>
 {resultat}"""
-    return layout("Outils", corps)
+    return layout("Outils", corps, admin_user)
 
 
 def page_404():
