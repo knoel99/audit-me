@@ -35,13 +35,16 @@ D'autres comptes existent (leur trouver l'accès fait partie de l'exercice).
 
 ## Votre mission
 
-Trouver les **10 failles** de l'application. Le code source est fourni :
+Trouver les **10 failles** de l'application, **déclarer chacune en issue**,
+puis les **corriger en pull request**. Le code source est fourni :
 l'audit combine donc **lecture du code** et **tests dynamiques** de l'API et
 des pages. Chaque faille est exploitable de façon observable (pas de
 faille « théorique »).
 
-Barème suggéré : une faille de niveau N rapporte N points (total : 30 points).
-Les bonus éventuels rapportent 1 point chacun, dans la limite de 5.
+Barème suggéré : une faille de niveau N rapporte N points (total : 30 points)
+si elle est **trouvée, déclarée correctement en issue et corrigée en PR
+fusionnée**. Les bonus éventuels rapportent 1 point chacun, dans la limite
+de 5.
 
 | # | Niveau | Domaine d'indice |
 |---|:---:|---|
@@ -67,6 +70,38 @@ Les bonus éventuels rapportent 1 point chacun, dans la limite de 5.
    attaquant obtient) et la correction à apporter.
 5. Bonus : repérer les **bonnes pratiques** déjà en place (il y en a), et
    les petites faiblesses supplémentaires qui ne comptent pas dans les 10.
+
+### Restitution attendue : issues puis pull requests
+
+L'audit se conclut sur GitHub — c'est la restitution qui est notée, pas
+seulement la découverte.
+
+**1. Déclarer chaque faille en issue.** Pour chaque faille confirmée, ouvrez
+une issue avec le modèle « Signalement de faille » proposé automatiquement :
+
+- titre au format `[Faille Niveau X] brève description`
+  (ex. `[Faille Niveau 2] Injection SQL à la connexion`) ;
+- renseignez : emplacement (fichier/fonction), étapes de reproduction
+  (commandes `curl` ou étapes navigateur), impact concret, correction
+  proposée, CWE si vous la connaissez ;
+- une faille = une issue ; les bonus sont déclarés de la même façon ;
+- ajoutez le label `faille` et le label de niveau (`niveau-1` à `niveau-5`,
+  ou `bonus`).
+
+**2. Corriger chaque faille en pull request.**
+
+- une branche par faille, créée depuis `master` :
+  `fix/faille-N-description` (ex. `fix/faille-4-injection-sql`) ;
+- une PR par issue, qui la référence avec `Fixes #N` ;
+- la PR décrit la correction, prouve que l'exploitation de l'issue échoue
+  désormais et que le comportement légitime est préservé ;
+- **attention** : votre correctif ne doit corriger **que** la faille de
+  l'issue — pas les autres (elles valent des points pour le reste de
+  l'exercice) ;
+- les PR sont revues puis fusionnées par le responsable du dépôt.
+
+> ⚠️ Les issues sont publiques : elles révèlent des éléments de solution aux
+> autres participants. Cherchez d'abord, déclarez ensuite.
 
 ## Corrigé
 
