@@ -103,11 +103,43 @@ une issue avec le modèle « Signalement de faille » proposé automatiquement :
 > ⚠️ Les issues sont publiques : elles révèlent des éléments de solution aux
 > autres participants. Cherchez d'abord, déclarez ensuite.
 
+## Déverrouiller le corrigé (l'épreuve finale)
+
+Le corrigé est publié, mais **chiffré** : [`solutions.enc`](solutions.enc)
+(AES-256-CBC, dérivation PBKDF2, 600 000 itérations). La phrase secrète
+(64 caractères hexadécimaux) a été découpée avec le **partage de secret de
+Shamir** sur GF(2⁸) : **5 fragments, seuil 5** — il faut les cinq pour la
+reconstituer, dans n'importe quel ordre, avec
+[`tools/reassembler.py`](tools/reassembler.py).
+
+Chaque fragment est caché dans le projet et réclame un **domaine de
+compétence différent** :
+
+| Fragment | Domaine requis |
+|:---:|---|
+| 1 | Protocole HTTP (inspection des réponses du serveur) et encodages |
+| 2 | Cryptographie classique |
+| 3 | Stéganographie (image) |
+| 4 | Analyse de fichiers : encodages exotiques et Unicode |
+| 5 | Forensique : l'historique Git ne perd rien |
+
+Repères : chaque fragment se présente sous la forme `NV5:<numéro>:<hex>`.
+L'un d'eux n'existe que dans l'historique du dépôt ; un autre ne se voit
+qu'en interrogeant le serveur ; les trois derniers sont dans des fichiers
+que vous avez déjà sous les yeux.
+
+Une fois la phrase reconstituée :
+
+```bash
+openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 \
+  -in solutions.enc -out SOLUTIONS.md -pass pass:<phrase>
+```
+
 ## Corrigé
 
-Le corrigé détaillé (emplacement, exploitation, impact, correction) se
-trouve dans [`SOLUTIONS.md`](SOLUTIONS.md) — **spoiler** : ne l'ouvrez que
-après avoir cherché.
+Le corrigé détaillé (emplacement, exploitation, impact, correction) est
+publié **chiffré** dans [`solutions.enc`](solutions.enc) — voir la section
+« Déverrouiller le corrigé » ci-dessus.
 
 ## Structure du dépôt
 
@@ -119,6 +151,8 @@ notevault/auth.py       Mots de passe et jetons de session
 notevault/routes.py     Routes (pages web + API JSON)
 notevault/views.py      Gabarits HTML
 notevault/helpers.py    Requêtes/réponses, échappement
-public/style.css        Feuille de style
+public/                 Feuille de style, logo
+tools/reassembler.py    Reconstitution de la phrase secrète (Shamir)
+solutions.enc           Corrigé chiffré (AES-256-CBC + PBKDF2)
 data/                   Base et exports (créés au runtime)
 ```

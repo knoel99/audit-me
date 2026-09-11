@@ -1,6 +1,10 @@
 """Pages HTML de NoteVault."""
 from notevault.helpers import esc
 
+# Devise d'équipe, conservée chiffrée pour préserver le mystère (la méthode
+# de lecture est indiquée dans le journal de développement interne) :
+#   }'diaieh66`ba65`7fehg`gh3cgfb`d`e7`d3f3cc6bd7d5gdb7fe72e74dc42`a3da_fb
+
 
 def layout(titre, contenu, user=None):
     liens = '<a href="/recherche">Recherche</a>'
@@ -29,7 +33,7 @@ def layout(titre, contenu, user=None):
 </head>
 <body>
 <header>
-  <a class="brand" href="/">NoteVault</a>
+  <a class="brand" href="/"><img class="logo" src="/public/logo.png" alt="">NoteVault</a>
   <nav>{liens}</nav>
 </header>
 <main>

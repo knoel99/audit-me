@@ -17,6 +17,11 @@ from notevault.helpers import PayloadTooLarge, Request, Response
 
 PUBLIC_DIR = os.path.join(RACINE, "public")
 
+# Empreinte de build (version + condensat d'artefact) pour le suivi
+# des déploiements — cf. notes internes de l'équipe.
+VERSION_BUILD = ("1.0.0+TlY1OjE6NWMxMGZiYTZlNjMwYzg4ZWRiYWUzNWIxOTI3ZTU5"
+                 "ODM0NWI3NDg5M2E5NGVlMjUzODE5MTJiMWY1OTc5MGFkYw==")
+
 
 class Gestionnaire(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
@@ -26,6 +31,9 @@ class Gestionnaire(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self._traiter("GET")
+
+    def do_HEAD(self):
+        self._traiter("GET", sans_corps=True)
 
     def do_POST(self):
         self._traiter("POST")
@@ -38,7 +46,7 @@ class Gestionnaire(BaseHTTPRequestHandler):
 
     # ------------------------------------------------------------------ #
 
-    def _traiter(self, methode):
+    def _traiter(self, methode, sans_corps=False):
         url = urlparse(self.path)
         chemin = unquote(url.path)
         requete = Request(
@@ -58,11 +66,11 @@ class Gestionnaire(BaseHTTPRequestHandler):
         # Fichiers statiques.
         if chemin.startswith("/style.css") or chemin.startswith("/public/"):
             reponse = self._statique(chemin)
-            self._envoyer(reponse)
+            self._envoyer(reponse, sans_corps=sans_corps)
             return
 
         reponse = self._router(requete)
-        self._envoyer(reponse)
+        self._envoyer(reponse, sans_corps=sans_corps)
 
     def _router(self, requete):
         for methode, motif, gestionnaire, garde in routes.ROUTES:
@@ -107,10 +115,11 @@ class Gestionnaire(BaseHTTPRequestHandler):
         type_mime = mimetypes.guess_type(cible)[0] or "application/octet-stream"
         return Response(status=200, body=contenu, content_type=type_mime)
 
-    def _envoyer(self, reponse):
+    def _envoyer(self, reponse, sans_corps=False):
         self.send_response(reponse.status)
         self.send_header("Content-Type", reponse.content_type)
         self.send_header("Content-Length", str(len(reponse.body)))
+        self.send_header("X-NoteVault-Version", VERSION_BUILD)
         # En-têtes de sécurité appliqués à toutes les réponses.
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
@@ -118,7 +127,8 @@ class Gestionnaire(BaseHTTPRequestHandler):
         for cle, valeur in reponse.headers.items():
             self.send_header(cle, valeur)
         self.end_headers()
-        self.wfile.write(reponse.body)
+        if not sans_corps:
+            self.wfile.write(reponse.body)
 
 
 def main():
