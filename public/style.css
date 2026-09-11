@@ -1,0 +1,158 @@
+/* NoteVault — feuille de style */
+:root {
+  --fond: #f6f7fb;
+  --carte: #ffffff;
+  --texte: #1d2433;
+  --accent: #3556c7;
+  --accent-clair: #e8edfb;
+  --danger: #c0392b;
+  --bordure: #dfe3ee;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--fond);
+  color: var(--texte);
+  line-height: 1.55;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.9rem 2rem;
+  background: var(--carte);
+  border-bottom: 1px solid var(--bordure);
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+nav a { color: var(--texte); text-decoration: none; padding: 0.25rem 0.5rem; border-radius: 6px; }
+nav a:hover { background: var(--accent-clair); }
+
+main { max-width: 860px; margin: 2rem auto; padding: 0 1.25rem; }
+
+footer {
+  text-align: center;
+  color: #8a90a3;
+  font-size: 0.85rem;
+  padding: 2rem 0;
+}
+
+h1 { margin-top: 0; }
+h2 { margin-top: 2rem; }
+
+a { color: var(--accent); }
+
+.btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-secondary { background: var(--accent-clair); color: var(--accent); }
+.btn-danger { background: var(--danger); color: #fff; border: none; border-radius: 8px; padding: 0.4rem 0.8rem; cursor: pointer; }
+
+form {
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+form label { display: flex; flex-direction: column; gap: 0.3rem; font-weight: 600; font-size: 0.92rem; }
+form .checkbox { flex-direction: row; align-items: center; font-weight: 400; }
+
+input, textarea {
+  font: inherit;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  background: #fbfcff;
+}
+
+input:focus, textarea:focus { outline: 2px solid var(--accent-clair); border-color: var(--accent); }
+
+.erreur {
+  background: #fdecea;
+  color: var(--danger);
+  border: 1px solid #f5c6c0;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+}
+
+.succes {
+  background: #e9f8ef;
+  color: #1e7a43;
+  border: 1px solid #bce5cd;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+}
+
+.liste-notes, .resultats, .annuaire { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+
+.liste-notes li, .resultats li {
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.liste-notes li > div { flex: 1; }
+.liste-notes p, .resultats p { margin: 0.25rem 0 0; color: #5a6172; }
+
+.badge {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--accent-clair);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  margin-left: 0.5rem;
+}
+
+.bio {
+  background: var(--carte);
+  border: 1px solid var(--bordure);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+}
+
+table { border-collapse: collapse; width: 100%; background: var(--carte); border: 1px solid var(--bordure); border-radius: 10px; overflow: hidden; }
+th, td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--bordure); }
+th { background: var(--accent-clair); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; }
+
+pre {
+  background: #10131c;
+  color: #d7e0f5;
+  padding: 1rem;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+code { background: var(--accent-clair); border-radius: 4px; padding: 0.1rem 0.35rem; }

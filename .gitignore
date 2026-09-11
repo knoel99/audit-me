@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# NoteVault — données runtime (base SQLite, exports)
+data/
+
+# Corrigé de l.exercice — conservé en local uniquement
+SOLUTIONS.md
